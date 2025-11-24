@@ -158,10 +158,10 @@
     <ClInclude Include="Header\pch.h" />
     <ClInclude Include="Header\Point.h" />
     <ClInclude Include="Header\Shape.h" />
+    <ClInclude Include="Header\Sphere.h" />
     <ClInclude Include="Src\Cylinder.h" />
     <ClInclude Include="Src\Shapefactory.h" />
     <ClInclude Include="Src\Shapemanager.h" />
-    <ClInclude Include="Src\Sphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Point.cpp" />

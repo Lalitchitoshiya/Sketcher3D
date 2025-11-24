@@ -1,5 +1,6 @@
 #include "ShapeManager.h"
-
+#include <string>
+#include "Export.h"
 void ShapeManager::add(std::unique_ptr<Shape> s) {
     shapes.push_back(std::move(s));
 }
@@ -12,3 +13,5 @@ void ShapeManager::saveAll() {
         shapes[i]->saveParams(name + "_params.txt");
     }
 }
+
+

@@ -1,14 +1,83 @@
+
 #include <iostream>
 #include <string>
+#include <memory>
+#include <vector>
 
-// Import DLL functions
-//extern "C" {
-//    __declspec(dllimport) void AddShape(const char* name, double* params, int count);
-//    __declspec(dllimport) void SaveAllShapes();
-//}
+#include "Shape.h"
+#include "Cuboid.h"
+#include "Sphere.h"
+#include "Point.h"
 
-void AddShape(const char* name, double* params, int count);
-void SaveAllShapes();
+// Global container for shapes
+std::vector<std::unique_ptr<Shape>> shapes;
+
+// (local) wrapper to store shapes
+void add(std::unique_ptr<Shape> s) {
+    shapes.push_back(std::move(s));
+}
+
+// Save all shapes
+void SaveAllShapes() {
+    for (size_t i = 0; i < shapes.size(); i++) {
+
+        std::string base = shapes[i]->getName() + "_" + std::to_string(i);
+
+        shapes[i]->savePoints(base + "_points.dat");
+        shapes[i]->saveParams(base + "_params.txt");
+    }
+}
+
+
+// AddShape 
+
+void AddShape(const char* name, double* params, int count)
+{
+    if (!name || !params) {
+        std::cerr << "AddShape: null args\n";
+        return;
+    }
+
+    std::string n(name);
+
+    
+    if (n == "cuboid")
+    {
+        if (count < 6) {
+            std::cerr << "Cuboid needs 6 params\n";
+            return;
+        }
+
+        // Your Cuboid constructor: Cuboid(Point, Point)
+        Point p1(params[0], params[1], params[2]);
+        Point p2(params[3], params[4], params[5]);
+
+        add(std::make_unique<Cuboid>(p1, p2));
+        return;
+    }
+
+
+    if (n == "sphere")
+    {
+        if (count < 4) {
+            std::cerr << "Sphere needs 4 params\n";
+            return;
+        }
+
+        // Your Sphere constructor: Sphere(Point, radius)
+        Point center(params[0], params[1], params[2]);
+        double radius = params[3];
+
+        add(std::make_unique<Sphere>(center, radius));
+        return;
+    }
+
+    std::cerr << "Unknown shape: " << name << "\n";
+}
+
+
+
+// MAIN FUNCTION
 
 int main()
 {
@@ -50,14 +119,6 @@ int main()
     std::cout << "\nSaving all shapes...\n";
     SaveAllShapes();
 
-    std::cout << "Done! Check your DLL folder for .dat and .txt files.\n";
+    std::cout << "Done! Check for .dat and .txt files.\n";
     return 0;
-}
-
-void AddShape(const char* name, double* params, int count)
-{
-}
-
-void SaveAllShapes()
-{
 }

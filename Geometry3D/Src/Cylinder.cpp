@@ -1,42 +1,38 @@
+
 #include "Cylinder.h"
 #include <fstream>
 #include <cmath>
 
-Cylinder::Cylinder(double cx, double cy, double cz, double h, double d)
-    : baseCenter(cx, cy, cz), height(h), diameter(d) {
+Cylinder::Cylinder(const Point& b, double h, double d)
+    : base(b), height(h), diameter(d) {
 }
 
 std::string Cylinder::getName() const {
     return "Cylinder";
 }
 
-void Cylinder::savePoints(const std::string& filename) const {
-    std::ofstream out(filename);
+void Cylinder::savePoints(const std::string& file) const {
+    std::ofstream out(file);
+    double r = diameter / 2.0;
 
-    const int radialSteps = 20;  // circle resolution
-    const int heightSteps = 10;  // vertical resolution
-    const double PI = 3.141592653589793;
-    double radius = diameter / 2.0;
+    for (int i = 0; i <= 10; i++) {
+        double t = (double)i / 10;
+        double z = base.z + t * height;
 
-    // Make circles along height
-    for (int i = 0; i <= heightSteps; ++i) {
-        double t = static_cast<double>(i) / heightSteps;
-        double z = baseCenter.z + t * height;
-
-        for (int j = 0; j <= radialSteps; ++j) {
-            double angle = static_cast<double>(j) / radialSteps * 2.0 * PI;
-            double x = baseCenter.x + radius * std::cos(angle);
-            double y = baseCenter.y + radius * std::sin(angle);
+        for (int j = 0; j <= 20; j++) {
+            double ang = j * (2 * 3.14159 / 20);
+            double x = base.x + r * cos(ang);
+            double y = base.y + r * sin(ang);
 
             out << Point(x, y, z).toString() << "\n";
         }
-        out << "\n";   // blank line: separate each ring (good for gnuplot with lines)
+        out << "\n";
     }
 }
 
-void Cylinder::saveParams(const std::string& filename) const {
-    std::ofstream out(filename);
+void Cylinder::saveParams(const std::string& file) const {
+    std::ofstream out(file);
     out << "shape: cylinder\n";
-    out << "length: " << height << "\n";   // as you wanted: length
+    out << "length: " << height << "\n";
     out << "diameter: " << diameter << "\n";
 }

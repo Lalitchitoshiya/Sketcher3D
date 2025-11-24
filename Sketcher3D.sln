@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sketcher3D", "Sketcher3D\Sketcher3D.vcxproj", "{30F12654-149C-4317-802E-E732A83B2082}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAA69C03-83D6-4E9B-8E60-4081E954EAD7} = {DAA69C03-83D6-4E9B-8E60-4081E954EAD7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Geometry3D", "Geometry3D\Geometry3D.vcxproj", "{DAA69C03-83D6-4E9B-8E60-4081E954EAD7}"
 EndProject
